@@ -27,9 +27,7 @@ marcasVacina <- vacinaDados %>% group_by(vacina_fabricante_nome) %>% summarise(c
 
 ui <- dashboardPage(
    dashboardHeader(title = "Dashboard covid19"),
-   dashboardSidebar(
-      sidebarMenuOutput("menu")
-   ),
+   dashboardSidebar(disable = TRUE),
    dashboardBody(
       fluidRow(valueBox(quantidadeVacinacao, "Pessoas vacinadas")),
       fluidRow(column(6,plotOutput("etnia")), column(6, plotOutput("vacinaDose"))),
