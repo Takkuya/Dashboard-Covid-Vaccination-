@@ -25,6 +25,8 @@ sexo <- vacinaDados %>% filter(paciente_enumSexoBiologico %in% c("M", "F")) %>% 
 #quantidade marca vacina
 marcasVacina <- vacinaDados %>% group_by(vacina_fabricante_nome) %>% summarise(count = n())
 
+#dose
+
 ui <- dashboardPage(
    dashboardHeader(title = "Dashboard covid19"),
    dashboardSidebar(disable = TRUE),
@@ -38,15 +40,18 @@ ui <- dashboardPage(
 server <- function(input, output) {
    
    output$etnia <- renderPlot({
-      ggplot(data = etniaAgrupado, aes(x = paciente_racaCor_valor, y = count, fill = paciente_racaCor_valor)) + geom_bar(stat = "identity")
+      ggplot(data = etniaAgrupado, aes(x = paciente_racaCor_valor, y = count, fill = paciente_racaCor_valor)) + geom_bar(stat = "identity") +
+         labs(x = "Etnias", y = "Quantidade", title = "Etnia dos pacientes vacinados", fill = "Etnias")
    })
    
    output$vacinaDose <- renderPlot({
-      ggplot(data = doseVacinaAgrupado, aes(x = vacina_descricao_dose, y = count, fill = vacina_descricao_dose)) + geom_bar(stat = "identity")
+      ggplot(data = doseVacinaAgrupado, aes(x = vacina_descricao_dose, y = count, fill = vacina_descricao_dose)) + geom_bar(stat = "identity") +
+         labs(x = "Doses", y = "Quantidade", title = "Doses da vacina", fill = "Doses")
    })
    
    output$marcas <- renderPlot({
-      ggplot(data = marcasVacina, aes(x = vacina_fabricante_nome, y = count, fill = vacina_fabricante_nome)) + geom_bar(stat = "identity")
+      ggplot(data = marcasVacina, aes(x = vacina_fabricante_nome, y = count, fill = vacina_fabricante_nome)) + geom_bar(stat = "identity") +
+         labs (x = "Marcas", y = "Quantidade", title = "Quantidade de vacinas por marca", fill = "Marcas")
    })
    
    output$genero <- renderPlot({
@@ -55,7 +60,7 @@ server <- function(input, output) {
          geom_bar(stat = "identity")+
          coord_polar("y", start = 200) +
          geom_text(aes(y = lab.pos, label = paste(porcentagem,"%", sep = "")), col = "white") +
-         theme_minimal() + ggtitle( "Sexos das pessoas vacinadas" ) +
+         theme_minimal() + labs(x = "", y = "Porcentagem", title = "Gênero das pessoas vacinadas", fill = "Gêneros") +
          scale_fill_brewer(palette = "Paired")
    })
 }
